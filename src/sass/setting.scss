@@ -1,0 +1,5 @@
+@import "./color.scss";
+
+body {
+  background: linear-gradient(90deg, $colorBg1, $colorBg2);
+}
