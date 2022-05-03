@@ -3,10 +3,10 @@ import { TYPES } from "../redux/types";
 export const channelReducer = (state = [], action) => {
   switch (action.type) {
     case TYPES.ADD_CHANNEL: {
-      return [...state, { channel: action.payload }];
+      return [...state, action.payload];
     }
     case TYPES.REMOVE_CHANNEL: {
-      return state.filter((ch) => ch.channel.id !== action.payload.id);
+      return state.filter((ch) => ch.id !== action.payload.id);
     }
     default:
       return state;

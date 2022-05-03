@@ -19,7 +19,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 
-import Message from "./Messages";
 import AddChannel from "./Modal/AddChannel";
 import { removeChannel } from "../../redux/actions/channel";
 
@@ -45,9 +44,7 @@ function ListUser(props) {
   };
 
   const handleDeleteChannel = (id) => {
-    console.log(id);
     dispatch(removeChannel(id));
-    console.log(channelReducer);
   };
 
   const drawer = (
@@ -58,12 +55,12 @@ function ListUser(props) {
         Add Channel
       </Button>
       <List>
-        {channelReducer.map((text) => (
-          <ListItem button key={text.channel.id}>
-            <ListItemText primary={text.channel.name} />
+        {channelReducer.map((channel) => (
+          <ListItem button key={channel.id}>
+            <ListItemText primary={channel.name} />
             <IconButton
               aria-label="delete"
-              onClick={() => handleDeleteChannel(text.channel.id)}
+              onClick={() => handleDeleteChannel(channel.id)}
             >
               <DeleteIcon />
             </IconButton>
@@ -88,7 +85,7 @@ function ListUser(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -150,18 +147,7 @@ function ListUser(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Toolbar />
-        <Message />
-      </Box>
-    </Box>
+    </>
   );
 }
 
