@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -14,28 +15,48 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import Button from "@mui/material/Button";
 
 import Message from "./Messages";
-import channels from "../../data/channel.json";
+import AddChannel from "./Modal/AddChannel";
 
 const drawerWidth = 240;
 
 function ListUser(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { channelReducer } = useSelector((state) => state);
+  console.log([...channelReducer]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
   };
 
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
+      <Button variant="link" startIcon={<AddIcon />} onClick={handleOpenModal}>
+        Add Channel
+      </Button>
       <List>
-        {channels.map((text) => (
-          <ListItem button key={text.id}>
-            <ListItemText primary={text.name} />
+        {channelReducer.map((text) => (
+          <ListItem button key={text.channel.id}>
+            <ListItemText primary={text.channel.name} />
+            <IconButton aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
           </ListItem>
         ))}
       </List>
@@ -49,6 +70,7 @@ function ListUser(props) {
           </ListItem>
         ))}
       </List>
+      <AddChannel open={open} close={handleCloseModal} />;
     </div>
   );
 
