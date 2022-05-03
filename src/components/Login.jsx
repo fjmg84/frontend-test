@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Box, Grid, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { login } from "../redux/actions/auth/login";
+import { login } from "../redux/actions/auth";
 
 const LoginForm = () => {
   const dispatch = useDispatch();

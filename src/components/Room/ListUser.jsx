@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -21,6 +21,7 @@ import Button from "@mui/material/Button";
 
 import Message from "./Messages";
 import AddChannel from "./Modal/AddChannel";
+import { removeChannel } from "../../redux/actions/channel";
 
 const drawerWidth = 240;
 
@@ -29,7 +30,7 @@ function ListUser(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const { channelReducer } = useSelector((state) => state);
-  console.log([...channelReducer]);
+  const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -43,6 +44,12 @@ function ListUser(props) {
     setOpen(false);
   };
 
+  const handleDeleteChannel = (id) => {
+    console.log(id);
+    dispatch(removeChannel(id));
+    console.log(channelReducer);
+  };
+
   const drawer = (
     <div>
       <Toolbar />
@@ -54,7 +61,10 @@ function ListUser(props) {
         {channelReducer.map((text) => (
           <ListItem button key={text.channel.id}>
             <ListItemText primary={text.channel.name} />
-            <IconButton aria-label="delete">
+            <IconButton
+              aria-label="delete"
+              onClick={() => handleDeleteChannel(text.channel.id)}
+            >
               <DeleteIcon />
             </IconButton>
           </ListItem>

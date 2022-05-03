@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import { Button, TextField, Grid } from "@mui/material";
 
 import { useDispatch } from "react-redux";
-import { addChannel } from "../../../redux/actions/channels/add";
+import { addChannel } from "../../../redux/actions/channel";
 
 const style = {
   position: "absolute",
@@ -59,7 +59,12 @@ function AddChannel({ open, close }) {
                 error={errors.channel && true}
                 label={errors.channel ? errors.channel.message : "Name channel"}
                 variant="outlined"
-                {...register("channel")}
+                {...register("channel", {
+                  required: {
+                    value: true,
+                    message: "Channel Not Blank",
+                  },
+                })}
               />
             </Grid>
             <Button type="{submit}">Add Channel</Button>
