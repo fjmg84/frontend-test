@@ -9,7 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -17,6 +16,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import Message from "./Messages";
+import channels from "../../data/channel.json";
 
 const drawerWidth = 240;
 
@@ -33,17 +33,15 @@ function ListUser(props) {
       <Toolbar />
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-
-            <ListItemText primary={text} />
+        {channels.map((text) => (
+          <ListItem button key={text.id}>
+            <ListItemText primary={text.name} />
           </ListItem>
         ))}
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
+        {["Exit"].map((text, index) => (
           <ListItem button key={text}>
             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
 
@@ -78,7 +76,7 @@ function ListUser(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Room Details
           </Typography>
         </Toolbar>
       </AppBar>
