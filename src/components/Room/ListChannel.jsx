@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -11,7 +12,6 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -21,6 +21,7 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 
 import AddChannel from "./Modal/AddChannel";
+import { logout } from "../../redux/actions/auth";
 import { activeChannel, removeChannel } from "../../redux/actions/channel";
 import { removeMessageThisChannel } from "../../redux/actions/messages";
 
@@ -32,6 +33,7 @@ function ListChannel(props) {
   const [open, setOpen] = useState(false);
   const { channelReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -54,6 +56,11 @@ function ListChannel(props) {
     dispatch(activeChannel(id));
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("../", { replace: true });
+  };
+
   const drawer = (
     <div>
       <Toolbar />
@@ -61,10 +68,12 @@ function ListChannel(props) {
       <Button variant="link" startIcon={<AddIcon />} onClick={handleOpenModal}>
         Add Channel
       </Button>
-      <Chip
-        label={`active channel:${channelReducer?.active[0]?.name}`}
-        variant="outlined"
-      />
+      {channelReducer?.active[0]?.name !== undefined && (
+        <Chip
+          label={`active channel:${channelReducer?.active[0]?.name}`}
+          variant="outlined"
+        />
+      )}
       <Divider />
       <List>
         {channelReducer.channel.map((item, index) => (
@@ -86,9 +95,8 @@ function ListChannel(props) {
       <Divider />
       <List>
         {["Exit"].map((text, index) => (
-          <ListItem button key={text}>
-            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-
+          <ListItem button key={text} onClick={handleLogout}>
+            <InboxIcon />
             <ListItemText primary={text} />
           </ListItem>
         ))}

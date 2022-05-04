@@ -1,5 +1,6 @@
 export const TYPES = {
   LOGIN: "login/login",
+  LOGOUT: "logout",
   ACTIVE_CHANNEL: "active_channel",
   ADD_CHANNEL: "add_channel",
   REMOVE_CHANNEL: "remove_channel",

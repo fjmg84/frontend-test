@@ -19,7 +19,8 @@ const SendMessage = () => {
 
   const handleSendMessage = () => {
     console.log(active);
-    dispatch(addMessage("fjmg84", sendMessage, active[0].id));
+    if (active[0]?.id)
+      dispatch(addMessage("fjmg84", sendMessage, active[0].id));
   };
 
   return (

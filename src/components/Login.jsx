@@ -1,10 +1,12 @@
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { login } from "../redux/actions/auth";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,6 +17,7 @@ const LoginForm = () => {
   const handleLogin = (data) => {
     const { username } = data;
     dispatch(login(username));
+    navigate("../room", { replace: true });
   };
   return (
     <Grid
