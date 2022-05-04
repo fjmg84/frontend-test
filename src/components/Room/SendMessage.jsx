@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
@@ -9,6 +9,8 @@ import { addMessage } from "../../redux/actions/messages";
 
 const SendMessage = () => {
   const [sendMessage, setSendMessage] = useState();
+  const { channelReducer } = useSelector((state) => state);
+  const { active } = channelReducer;
   const dispatch = useDispatch();
 
   const handleCreateMessage = (event) => {
@@ -16,7 +18,8 @@ const SendMessage = () => {
   };
 
   const handleSendMessage = () => {
-    dispatch(addMessage("fjmg84", sendMessage));
+    console.log(active);
+    dispatch(addMessage("fjmg84", sendMessage, active[0].id));
   };
 
   return (

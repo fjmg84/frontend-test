@@ -6,4 +6,5 @@ export const TYPES = {
   ADD_MESSAGE: "add_message",
   EDIT_MESSAGE: "edit_message",
   REMOVE_MESSAGE: "remove_message",
+  REMOVE_MESSAGE_THIS_CHANNEL: "remove_message_this_channel",
 };

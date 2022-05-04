@@ -22,6 +22,7 @@ import Chip from "@mui/material/Chip";
 
 import AddChannel from "./Modal/AddChannel";
 import { activeChannel, removeChannel } from "../../redux/actions/channel";
+import { removeMessageThisChannel } from "../../redux/actions/messages";
 
 const drawerWidth = 240;
 
@@ -46,6 +47,7 @@ function ListChannel(props) {
 
   const handleDeleteChannel = (id) => {
     dispatch(removeChannel(id));
+    dispatch(removeMessageThisChannel(id));
   };
 
   const handleChannelActive = (id) => {
@@ -59,7 +61,6 @@ function ListChannel(props) {
       <Button variant="link" startIcon={<AddIcon />} onClick={handleOpenModal}>
         Add Channel
       </Button>
-      <Divider />
       <Chip
         label={`active channel:${channelReducer?.active[0]?.name}`}
         variant="outlined"
