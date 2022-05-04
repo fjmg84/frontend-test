@@ -8,6 +8,13 @@ export const addChannel = (name) => {
   };
 };
 
+export const activeChannel = (id) => {
+  return {
+    type: TYPES.ACTIVE_CHANNEL,
+    payload: { id },
+  };
+};
+
 export const removeChannel = (id) => {
   return {
     type: TYPES.REMOVE_CHANNEL,

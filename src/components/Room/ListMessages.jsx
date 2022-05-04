@@ -1,11 +1,39 @@
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Box, Grid } from "@mui/material";
+import Alert from "@mui/material/Alert";
 import Message from "./Message";
+import { loadMessage } from "../../redux/actions/messages";
 
 const ListMessages = () => {
+  const [messageError, setMessageError] = useState({
+    state: false,
+    message: undefined,
+  });
+  const { messageReducer } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  console.log(messageReducer);
+
+  /* useEffect(() => {
+    setTimeout(() => {
+      loadMessage()
+        .then((message) => {
+          dispatch(message);
+        })
+        .catch((error) => {
+          setMessageError({
+            state: true,
+            message: error,
+          });
+        });
+    }, 100000);
+  }); */
+
   return (
     <>
       <Box
         sx={{
+          padding: 1,
           boxShadow: 10,
           width: "100%",
           height: 400,
@@ -16,12 +44,24 @@ const ListMessages = () => {
         <Grid
           container
           sx={{
-            padding: 2,
+            padding: 1,
             height: "100%",
             overflow: "auto",
           }}
         >
-          <Message who={"me"} />
+          {messageError.state && (
+            <Alert severity="error">
+              This is an error alert — {`${messageError.message}`}!
+            </Alert>
+          )}
+
+          {messageReducer.map((message) => {
+            return (
+              <Grid item xs={12} key={message.id}>
+                <Message {...message} />
+              </Grid>
+            );
+          })}
         </Grid>
       </Box>
     </>

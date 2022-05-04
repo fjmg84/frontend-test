@@ -18,13 +18,14 @@ import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 
 import AddChannel from "./Modal/AddChannel";
-import { removeChannel } from "../../redux/actions/channel";
+import { activeChannel, removeChannel } from "../../redux/actions/channel";
 
 const drawerWidth = 240;
 
-function ListUser(props) {
+function ListChannel(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -47,6 +48,10 @@ function ListUser(props) {
     dispatch(removeChannel(id));
   };
 
+  const handleChannelActive = (id) => {
+    dispatch(activeChannel(id));
+  };
+
   const drawer = (
     <div>
       <Toolbar />
@@ -54,13 +59,23 @@ function ListUser(props) {
       <Button variant="link" startIcon={<AddIcon />} onClick={handleOpenModal}>
         Add Channel
       </Button>
+      <Divider />
+      <Chip
+        label={`active channel:${channelReducer?.active[0]?.name}`}
+        variant="outlined"
+      />
+      <Divider />
       <List>
-        {channelReducer.map((channel) => (
-          <ListItem button key={channel.id}>
-            <ListItemText primary={channel.name} />
+        {channelReducer.channel.map((item, index) => (
+          <ListItem
+            button
+            key={index}
+            onClick={() => handleChannelActive(item.id)}
+          >
+            <ListItemText primary={item.name} />
             <IconButton
               aria-label="delete"
-              onClick={() => handleDeleteChannel(channel.id)}
+              onClick={() => handleDeleteChannel(item.id)}
             >
               <DeleteIcon />
             </IconButton>
@@ -151,7 +166,7 @@ function ListUser(props) {
   );
 }
 
-ListUser.propTypes = {
+ListChannel.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -159,4 +174,4 @@ ListUser.propTypes = {
   window: PropTypes.func,
 };
 
-export default ListUser;
+export default ListChannel;

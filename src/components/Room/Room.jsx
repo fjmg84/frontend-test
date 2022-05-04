@@ -1,6 +1,6 @@
 import { Box, Toolbar } from "@mui/material";
 import ListMessages from "./ListMessages";
-import ListUser from "./ListUser";
+import ListChannel from "./ListChannel";
 import SendMessage from "./SendMessage";
 
 const drawerWidth = 240;
@@ -8,7 +8,7 @@ const drawerWidth = 240;
 const Room = () => {
   return (
     <Box sx={{ display: "flex" }}>
-      <ListUser />
+      <ListChannel />
       <Box
         component="main"
         sx={{
