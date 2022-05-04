@@ -32,6 +32,10 @@ function ListChannel(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const { channelReducer } = useSelector((state) => state);
+  const { name: nameChannelActive } = channelReducer?.active[0] || {
+    name: undefined,
+  };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -68,18 +72,18 @@ function ListChannel(props) {
       <Button variant="link" startIcon={<AddIcon />} onClick={handleOpenModal}>
         Add Channel
       </Button>
-      {channelReducer?.active[0]?.name !== undefined && (
+      {nameChannelActive !== undefined && (
         <Chip
-          label={`active channel:${channelReducer?.active[0]?.name}`}
+          label={`active channel:${nameChannelActive}`}
           variant="outlined"
         />
       )}
       <Divider />
       <List>
-        {channelReducer.channel.map((item, index) => (
+        {channelReducer.channel.map((item) => (
           <ListItem
             button
-            key={index}
+            key={item.id}
             onClick={() => handleChannelActive(item.id)}
           >
             <ListItemText primary={item.name} />
@@ -94,7 +98,7 @@ function ListChannel(props) {
       </List>
       <Divider />
       <List>
-        {["Exit"].map((text, index) => (
+        {["Exit"].map((text) => (
           <ListItem button key={text} onClick={handleLogout}>
             <InboxIcon />
             <ListItemText primary={text} />

@@ -9,8 +9,9 @@ import { addMessage } from "../../redux/actions/messages";
 
 const SendMessage = () => {
   const [sendMessage, setSendMessage] = useState();
-  const { channelReducer } = useSelector((state) => state);
-  const { active } = channelReducer;
+  const { channelReducer, authReducer } = useSelector((state) => state);
+  const { id: idChannelActive } = channelReducer.active[0] || { id: undefined };
+  const { username } = authReducer || { username: undefined };
   const dispatch = useDispatch();
 
   const handleCreateMessage = (event) => {
@@ -18,9 +19,8 @@ const SendMessage = () => {
   };
 
   const handleSendMessage = () => {
-    console.log(active);
-    if (active[0]?.id)
-      dispatch(addMessage("fjmg84", sendMessage, active[0].id));
+    if (idChannelActive)
+      dispatch(addMessage(username, sendMessage, idChannelActive));
   };
 
   return (
