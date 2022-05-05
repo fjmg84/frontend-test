@@ -12,12 +12,10 @@ const ListMessages = () => {
   });
   const { messageReducer, channelReducer } = useSelector((state) => state);
   const channelActive = channelReducer.active[0]?.id || undefined;
+  const { messages } = messageReducer || [];
   const dispatch = useDispatch();
 
-  /**
-   * Descomentar para simular respuestas de API
-   */
-  /* useEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       if (channelActive !== undefined) {
         loadMessage(channelActive)
@@ -32,7 +30,7 @@ const ListMessages = () => {
           });
       }
     }, 10000);
-  }); */
+  });
 
   return (
     <>
@@ -60,7 +58,7 @@ const ListMessages = () => {
             </Alert>
           )}
 
-          {messageReducer.map((message) => {
+          {messages.map((message) => {
             return (
               message.channel === channelActive && (
                 <Grid item xs={12} key={message.id}>

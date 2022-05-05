@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -9,10 +9,18 @@ import { addMessage } from "../../redux/actions/messages";
 
 const SendMessage = () => {
   const [sendMessage, setSendMessage] = useState();
-  const { channelReducer, authReducer } = useSelector((state) => state);
+  const valueEditMessage = useRef();
+  const { channelReducer, messageReducer, authReducer } = useSelector(
+    (state) => state
+  );
   const { id: idChannelActive } = channelReducer.active[0] || { id: undefined };
   const { username } = authReducer || { username: undefined };
+  const { edit } = messageReducer || {};
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (edit.message) valueEditMessage.current.value = edit.message;
+  }, [edit]);
 
   const handleCreateMessage = (event) => {
     setSendMessage(event.target.value);
@@ -40,6 +48,7 @@ const SendMessage = () => {
         variant="standard"
         sx={{ width: "90%" }}
         onChange={handleCreateMessage}
+        inputRef={valueEditMessage}
       />
       <IconButton
         color="primary"
